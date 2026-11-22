@@ -35,10 +35,15 @@
   <div class="spin"></div>
   <div id="slow">Taking long? <a href="https://script.google.com/macros/s/AKfycbxcfmXNZdCLuFU3V225JvFQVo1ePutsCgBDh4zjyKvUH_1qZT2KEz5x1Ptbid-WL8eF/exec" target="_top">Open the portal directly</a></div>
 </div>
-<iframe id="app" src="https://script.google.com/macros/s/AKfycbxcfmXNZdCLuFU3V225JvFQVo1ePutsCgBDh4zjyKvUH_1qZT2KEz5x1Ptbid-WL8eF/exec" title="TFMRC Time Keeping Monitoring" allow="clipboard-read; clipboard-write"></iframe>
+<iframe id="app" title="TFMRC Time Keeping Monitoring" allow="clipboard-read; clipboard-write"></iframe>
 <script>
   var APP_URL = "https://script.google.com/macros/s/AKfycbxcfmXNZdCLuFU3V225JvFQVo1ePutsCgBDh4zjyKvUH_1qZT2KEz5x1Ptbid-WL8eF/exec";
   var sp = document.getElementById('splash');
+  // Auto log-in: pass the one-time pass from the TFMRC Portal (?sso=...) to the app,
+  // then remove it from the address bar.
+  var sso = new URLSearchParams(location.search).get('sso');
+  document.getElementById('app').src = APP_URL + (sso ? '?sso=' + encodeURIComponent(sso) : '');
+  if (sso && history.replaceState) history.replaceState(null, '', location.pathname);
   document.getElementById('app').addEventListener('load', function () { sp.classList.add('hide'); });
   setTimeout(function () { document.getElementById('slow').style.display = 'block'; }, 10000);
 </script>
